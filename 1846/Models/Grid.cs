@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace _1846.Models
 {
@@ -10,10 +8,43 @@ namespace _1846.Models
 
         public Grid()
         {
-
+            var cities = new List<City>
+            {
+                new OffboardCity("Holland", 40, false, false, 0, steamBonus: 40),
+                new City("Port Huron", 20, Company.GrandTrunk),
+                new OffboardCity("Sarnia", 20, true, false, 20),
+                new OffboardCity("Chicago Connections", 20, false, true, 50, steamBonus: 20),
+                new City("South Bend", 20, Company.None),
+                new City("Detroit", 40, Company.MichiganSouthern, stationMax: 2),
+                new OffboardCity("Windsor", 40, true, false, 30),
+                new City("Chicago", 10, Company.ChicagoAndWIndiana, 30, stationMax: 4),
+                new City("Toledo", 20, Company.None, steamBonus: 20),
+                new City("Erie", 10, Company.NYCentral, stationMax: 2),
+                new OffboardCity("Buffalo", 30, true, false, 30),
+                new City("Fort Wayne", 20, Company.Pennsylvania),
+                new City("Cleveland", 40, Company.None),
+                new City("Salamanca", 10, Company.Erie),
+                new OffboardCity("Binghamton", 20, true, false, 30),
+                new City("Homewood", 10, Company.Pennsylvania),
+                new OffboardCity("Pittsburgh", 30, true, false, 20),
+                new City("Springfield", 20, Company.None),
+                new City("Terre Haute", 20, Company.None),
+                new City("Indianapolis", 20, Company.Big4),
+                new City("Dayton", 20, Company.None),
+                new City("Columbus", 20, Company.None),
+                new City("Wheeling", 10, Company.BaltimoreAndOhio, steamBonus: 40),
+                new City("Cincinnati", 40, Company.BaltimoreAndOhio),
+                new OffboardCity("Cumberland", 20, true, false, 30),
+                new OffboardCity("St. Louis", 50, false, true, 20, 30, 20),
+                new City("Centralia", 10, Company.IllinoisCentral, stationMax: 2),
+                new City("Huntington", 20, Company.Chesapeake),
+                new OffboardCity("Charleston", 20, true, false, 20),
+                new OffboardCity("Louisville", 50, false, false, 0),
+                new City("Cairo", 20, Company.IllinoisCentral)
+            };
 
             Nodes[0, 4] = new Node(4, 0, tier: Tier.Gray);//gray turn tile
-            Nodes[1, 1] = new Node(1, 1, tier: Tier.Red);//holland
+            Nodes[1, 1] = new Node(1, 1, city: cities[0], tier: Tier.Red);//holland
             Nodes[1, 2] = new Node(2, 1);
             Nodes[1, 3] = new Node(3, 1);
             Nodes[1, 4] = new Node(4, 1);
@@ -89,255 +120,6 @@ namespace _1846.Models
             Nodes[9, 5] = new Node(5, 9);
             Nodes[9, 6] = new Node(6, 9);//louisville
             Nodes[10, 3] = new Node(3, 10);//cairo
-
-            var cities = new List<City>
-            {
-                new OffboardCity("Holland", 40, false, false, 0, steamBonus: 40),
-                new City("Port Huron", 20, Company.GrandTrunk),
-                new OffboardCity("Sarnia", 20, true, false, 20),
-                new OffboardCity("Chicago Connections", 20, false, true, 50, steamBonus: 20),
-                new City("South Bend", 20, Company.None),
-                new City("Detroit", 40, Company.MichiganSouthern, stationMax: 2),
-                new OffboardCity("Windsor", 40, true, false, 30),
-                new City("Chicago", 10, Company.ChicagoAndWIndiana, 30, stationMax: 4),
-                new City("Toledo", 20, Company.None, steamBonus: 20),
-                new City("Erie", 10, Company.NYCentral, stationMax: 2),
-                new OffboardCity("Buffalo", 30, true, false, 30),
-                new City("Fort Wayne", 20, Company.Pennsylvania),
-                new City("Cleveland", 40, Company.None),
-                new City("Salamanca", 10, Company.Erie),
-                new OffboardCity("Binghamton", 20, true, false, 30),
-                new City("Homewood", 10, Company.Pennsylvania),
-                new OffboardCity("Pittsburgh", 30, true, false, 20),
-                new City("Springfield", 20, Company.None),
-                new City("Terre Haute", 20, Company.None),
-                new City("Indianapolis", 20, Company.Big4),
-                new City("Dayton", 20, Company.None),
-                new City("Columbus", 20, Company.None),
-                new City("Wheeling", 10, Company.BaltimoreAndOhio, steamBonus: 40),
-                new City("Cincinnati", 40, Company.BaltimoreAndOhio),
-                new OffboardCity("Cumberland", 20, true, false, 30),
-                new OffboardCity("St. Louis", 50, false, true, 20, 30, 20),
-                new City("Centralia", 10, Company.IllinoisCentral, stationMax: 2),
-                new City("Huntington", 20, Company.Chesapeake),
-                new OffboardCity("Charleston", 20, true, false, 20),
-                new OffboardCity("Louisville", 50, false, false, 0),
-                new City("Cairo", 20, Company.IllinoisCentral)
-            };
-
-            //build roads
-            for (int row = 0; row < Nodes.GetLength(0); row++)
-            {
-                for (int column = 0; column < Nodes.GetLength(1); column++)
-                {
-                    //find real tile
-                    var currentNode = Nodes[row, column];
-                    if (currentNode != null)
-                    {
-                        //check around tile clockwise from top left
-                        foreach (var adjacentNodeCoords in adjacentNodesCoords)
-                        {
-                            //make sure coords are not off map
-                            if (row + adjacentNodeCoords.Item1 >= 0 &&
-                                row + adjacentNodeCoords.Item1 <= 9 &&
-                                column + adjacentNodeCoords.Item2 >= 0 &&
-                                column + adjacentNodeCoords.Item2 <= 19)
-                            {
-                                //make sure coords lead to real tile
-                                var adjacentNode = Nodes[row + adjacentNodeCoords.Item1, column + adjacentNodeCoords.Item2];
-                                if (adjacentNode != null)
-                                {
-                                    //check if road already exists
-                                    var roadExists = currentNode.Neighbors
-                                        .FirstOrDefault(r => r.WestDestination == adjacentNode || r.EastDestination == adjacentNode) != null;
-
-                                    if (!roadExists)
-                                    {
-                                        var newRoad = new Road();
-                                        //the node with the greater column number is more easterly
-                                        if (currentNode.Q > adjacentNode.Q)
-                                        {
-                                            newRoad.EastDestination = currentNode;
-                                            newRoad.WestDestination = adjacentNode;
-                                        }
-                                        else
-                                        {
-                                            newRoad.EastDestination = adjacentNode;
-                                            newRoad.WestDestination = currentNode;
-                                        }
-
-                                        currentNode.Neighbors.Add(newRoad);
-                                        adjacentNode.Neighbors.Add(newRoad);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            //build offboard roads
-            var road = new Road
-            {
-                WestDestination = offboardNodes[0],
-                EastDestination = Nodes[2, 4],
-                WestIsBuilt = true
-            };
-            offboardNodes[0].Neighbors.Add(road);
-            Nodes[2, 4].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[1],
-                EastDestination = Nodes[0, 8],
-                WestIsBuilt = true
-            };
-            offboardNodes[1].Neighbors.Add(road);
-            Nodes[0, 8].Neighbors.Add(road);
-
-            road = new Tunnel
-            {
-                WestDestination = offboardNodes[2],
-                EastDestination = Nodes[0, 14],
-                EastIsBuilt = true,
-                TunnelPenalty = 40
-            };
-            offboardNodes[2].Neighbors.Add(road);
-            Nodes[0, 14].Neighbors.Add(road);
-
-            road = new Tunnel
-            {
-                WestDestination = offboardNodes[3],
-                EastDestination = Nodes[1, 13],
-                EastIsBuilt = true,
-                TunnelPenalty = 60
-            };
-            offboardNodes[3].Neighbors.Add(road);
-            Nodes[1, 13].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[4],
-                EastDestination = Nodes[2, 18],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[4].Neighbors.Add(road);
-            Nodes[2, 18].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[4],
-                EastDestination = Nodes[2, 18],
-                EastIsBuilt = true
-            };
-            offboardNodes[4].Neighbors.Add(road);
-            Nodes[2, 18].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[5],
-                EastDestination = Nodes[3, 19],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[5].Neighbors.Add(road);
-            Nodes[3, 19].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[6],
-                EastDestination = Nodes[4, 18],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[6].Neighbors.Add(road);
-            Nodes[4, 18].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[6],
-                EastDestination = Nodes[4, 18],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[6].Neighbors.Add(road);
-            Nodes[4, 18].Neighbors.Add(road);
-
-            road = new Tunnel
-            {
-                WestDestination = offboardNodes[6],
-                EastDestination = Nodes[5, 17],
-                EastIsBuilt = true,
-                TunnelPenalty = 20
-            };
-            offboardNodes[6].Neighbors.Add(road);
-            Nodes[5, 17].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[7],
-                EastDestination = Nodes[5, 17],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[7].Neighbors.Add(road);
-            Nodes[5, 17].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[8],
-                EastDestination = Nodes[7, 13],
-                EastIsBuilt = true,
-                WestIsBuilt = true
-            };
-            offboardNodes[8].Neighbors.Add(road);
-            Nodes[7, 13].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[9],
-                EastDestination = Nodes[7, 7],
-                EastIsBuilt = true
-            };
-            offboardNodes[9].Neighbors.Add(road);
-            Nodes[7, 7].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[9],
-                EastDestination = Nodes[7, 9],
-                WestIsBuilt = true
-            };
-            offboardNodes[9].Neighbors.Add(road);
-            Nodes[7, 9].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[10],
-                EastDestination = Nodes[7, 1],
-                WestIsBuilt = true
-            };
-            offboardNodes[10].Neighbors.Add(road);
-            Nodes[7, 1].Neighbors.Add(road);
-
-            road = new Road
-            {
-                WestDestination = offboardNodes[10],
-                EastDestination = Nodes[6, 0],
-                WestIsBuilt = true
-            };
-            offboardNodes[10].Neighbors.Add(road);
-            Nodes[6, 0].Neighbors.Add(road);
-
-            //build bridges
-            ((Bridge)Nodes[5, 17].Neighbors.FirstOrDefault(r => r.WestDestination == Nodes[4, 16])).BridgePenalty = 40;
-            ((Bridge)Nodes[5, 17].Neighbors.FirstOrDefault(r => r.WestDestination == Nodes[5, 15])).BridgePenalty = 20;
-            ((Bridge)Nodes[6, 10].Neighbors.FirstOrDefault(r => r.WestDestination == Nodes[7, 9])).BridgePenalty = 20;
-            ((Bridge)Nodes[8, 4].Neighbors.FirstOrDefault(r => r.WestDestination == Nodes[8, 2])).BridgePenalty = 40;
-
-            //build last tunnel
-            ((Tunnel)Nodes[4, 18].Neighbors.FirstOrDefault(r => r.WestDestination == Nodes[3, 17])).TunnelPenalty = 40;
         }
     }
 }
