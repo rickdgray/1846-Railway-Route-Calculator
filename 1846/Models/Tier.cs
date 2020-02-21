@@ -2,6 +2,9 @@
 {
     public enum Tier
     {
+        FreeForIC = -5,
+        OandIReserved = -4,
+        MCReserved = -3,
         BridgeRequired = -2,
         TunnelRequired = -1,
         Empty = 0,

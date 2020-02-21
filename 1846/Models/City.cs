@@ -35,5 +35,40 @@ namespace _1846.Models
             else
                 Stations = stations;
         }
+
+        public enum CityName
+        {
+            Holland,
+            PortHuron,
+            Sarnia,
+            ChicagoConnections,
+            SouthBend,
+            Detroit,
+            Windsor,
+            Buffalo,
+            Chicago,
+            Toledo,
+            Erie,
+            FortWayne,
+            Cleveland,
+            Salamanca,
+            Binghamton,
+            Homewood,
+            Pittsburgh,
+            Springfield,
+            TerreHaute,
+            Indianapolis,
+            Dayton,
+            Columbus,
+            Wheeling,
+            Cincinnati,
+            Cumberland,
+            StLouis,
+            Centralia,
+            Huntington,
+            Charleston,
+            Louisville,
+            Cairo
+        }
     }
 }

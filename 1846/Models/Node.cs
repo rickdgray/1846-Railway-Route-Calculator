@@ -19,9 +19,6 @@ namespace _1846.Models
         public bool IsZed { get; }
         public City City { get; }
         public int ConstructionPenalty { get; }
-        public bool IsMCReserved { get; }
-        public bool IsOAndIReserved { get; }
-        public bool IsFreeForIC { get; }
 
         public Tier Tier { get; set; }
 
@@ -29,13 +26,10 @@ namespace _1846.Models
             int q,
             int r,
             int? s = null,
-            bool isZed = false,
+            Tier tier = Tier.Empty,
             City city = null,
-            int constructionPenalty = 0,
-            bool isMCReserved = false,
-            bool isOAndIReserved = false,
-            bool isFreeForIC = false,
-            Tier tier = Tier.Empty)
+            bool isZed = false,
+            int constructionPenalty = 0)
         {
             Q = q;
             R = r;
@@ -50,10 +44,6 @@ namespace _1846.Models
             IsZed = isZed;
             City = city;
             ConstructionPenalty = constructionPenalty;
-            IsMCReserved = isMCReserved;
-            IsOAndIReserved = isOAndIReserved;
-            IsFreeForIC = isFreeForIC;
-
             Tier = tier;
         }
 
