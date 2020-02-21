@@ -6,7 +6,7 @@ namespace _1846
     {
         public static void Main(string[] args)
         {
-            var nodes = Node.GetNodes();
+            var grid = new Grid();
         }
     }
 }
