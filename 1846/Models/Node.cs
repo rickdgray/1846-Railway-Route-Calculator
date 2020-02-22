@@ -101,5 +101,10 @@ namespace _1846.Models
             var diff = Subtract(b);
             return (Math.Abs(diff.Q) + Math.Abs(diff.R) + Math.Abs(diff.S)) / 2;
         }
+
+        public override string ToString()
+        {
+            return $"{Tier.ToString()} {(IsZed ? "Zed " : string.Empty)}Tile at ({R}, {Q}){(City != null ? $" contains {(City is OffboardCity offboardCity ? $"{offboardCity.ToString()} " : $"{City.ToString()} ")}" : string.Empty)}";
+        }
     }
 }

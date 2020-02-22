@@ -5,9 +5,13 @@ namespace _1846.Models
     public class Grid
     {
         public Node[,] Nodes { get; } = new Node[11, 11];
+        public int Phase { get; set; } = 1;
+        public int PlayerCount { get; set; }
 
-        public Grid()
+        public Grid(int playerCount)
         {
+            PlayerCount = playerCount;
+
             var cities = new Dictionary<City.CityName, City>
             {
                 { City.CityName.Holland, new OffboardCity("Holland", 40, false, false, 0, steamBonus: 40) },
@@ -119,6 +123,17 @@ namespace _1846.Models
             Nodes[9, 5] = new Node(5, 9);
             Nodes[9, 6] = new Node(6, 9, tier: Tier.Red, city: cities[City.CityName.Louisville]);
             Nodes[10, 3] = new Node(3, 10, tier: Tier.Gray, city: cities[City.CityName.Cairo]);
+        }
+
+        public override string ToString()
+        {
+            var result = "";
+            foreach(var node in Nodes)
+            {
+                if (node != null)
+                    result = $"{result}{node.ToString()}\n";
+            }
+            return result;
         }
     }
 }

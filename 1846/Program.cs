@@ -1,4 +1,5 @@
-﻿using _1846.Models;
+﻿using System;
+using _1846.Models;
 
 namespace _1846
 {
@@ -6,7 +7,9 @@ namespace _1846
     {
         public static void Main(string[] args)
         {
-            var grid = new Grid();
+            var grid = new Grid(5);
+
+            Console.WriteLine(grid.ToString());
         }
     }
 }

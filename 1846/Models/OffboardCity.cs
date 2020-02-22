@@ -2,6 +2,10 @@
 {
     public class OffboardCity : City
     {
+        public bool IsEast { get; }
+        public bool IsWest { get; }
+        public int EastWestBonus { get; }
+
         public OffboardCity(
             string name,
             int revenue,
@@ -20,8 +24,9 @@
             EastWestBonus = eastWestBonus;
         }
 
-        public bool IsEast { get; }
-        public bool IsWest { get; }
-        public int EastWestBonus { get; }
+        public override string ToString()
+        {
+            return $"Offboard {base.ToString()}, Locale: {(IsEast ? "Eastern" : IsWest ? "Western" : "Central")}{(IsEast || IsWest ? $", East to West Bonus: {EastWestBonus.ToString()}" : string.Empty)}";
+        }
     }
 }

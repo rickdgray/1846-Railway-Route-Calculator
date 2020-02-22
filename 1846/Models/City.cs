@@ -36,6 +36,11 @@ namespace _1846.Models
                 Stations = stations;
         }
 
+        public override string ToString()
+        {
+            return $"City: {Name}, Current Revenue: {Revenue}, Number of Stations: {(Stations == null ? 0 : Stations.Count)}";
+        }
+
         public enum CityName
         {
             Holland,
