@@ -4,6 +4,11 @@
     {
         public int Id { get; }
         public Tier Tier { get; }
-        public int? MaxCount { get; }
+
+        public Tile(int id, Tier tier)
+        {
+            Id = id;
+            Tier = tier;
+        }
     }
 }

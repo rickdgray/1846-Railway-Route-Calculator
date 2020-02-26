@@ -2,13 +2,13 @@
 
 namespace _1846.Models
 {
-    public class Grid
+    public class Map
     {
         public Node[,] Nodes { get; } = new Node[11, 11];
         public int Phase { get; set; } = 1;
         public int PlayerCount { get; set; }
 
-        public Grid(int playerCount)
+        public Map(int playerCount)
         {
             PlayerCount = playerCount;
 

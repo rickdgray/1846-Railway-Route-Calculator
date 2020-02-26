@@ -7,9 +7,13 @@ namespace _1846
     {
         public static void Main(string[] args)
         {
-            var grid = new Grid(5);
+            var tiles = new TileManifest();
 
-            Console.WriteLine(grid.ToString());
+            Console.WriteLine(tiles.ToString());
+
+            //var grid = new Map(5);
+
+            //Console.WriteLine(grid.ToString());
         }
     }
 }

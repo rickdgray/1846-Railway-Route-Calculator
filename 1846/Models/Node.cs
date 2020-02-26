@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace _1846.Models
 {
@@ -15,6 +16,8 @@ namespace _1846.Models
         /// <param name="R">Row</param>
         public int R { get; }
         public int S { get; }
+
+        public Dictionary<Direction, Edge> Neighbors { get; set; }
 
         public bool IsZed { get; }
         public City City { get; }
